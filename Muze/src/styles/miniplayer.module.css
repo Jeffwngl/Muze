@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Pixelify Sans', sans-serif;
-  color:#6d6d6d;
+  color: #6d6d6d;
   height: 100vh;
   margin: 0;
   background: linear-gradient(0deg, rgb(221, 217, 217) 0%, rgb(240, 239, 239) 100%);
@@ -11,12 +11,13 @@ body {
 .container {
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 }
 
 .wrapper {
   padding: 3px;
+  margin: 5px;
   border-radius: 8px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
@@ -25,18 +26,24 @@ body {
   padding: 20px;
 }
 
+/*  footer */
 
-.songTitle {
+.footer {
   display: flex;
 }
 
+.footer p {
+    margin-top: 0px;
+}
+
+/* Buttons */
 .buttons {
   display: flex;
   align-items: center;
-  width: 80%;
-  padding: 20px 20px 0px 20px;
-  border-radius: 10px;
   justify-content: space-evenly;
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .buttons button {
@@ -46,21 +53,19 @@ body {
   width: 5em;
   height: 2em;
   border-radius: 5px;
-  position: relative;
-  outline: none;
-  border: none;
   background: linear-gradient(145deg, #c6c5c5, #e7e7e7);
+  box-shadow: inset 1px 2px 0px #ffffff, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
   cursor: pointer;
   transition: 0.15s;
-  box-shadow: inset 2px 2px 0px #ffffff, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  border: none;
+  outline: none;
 }
 
-button:active {
+.buttons button:active {
   box-shadow: inset 0px 2px 3px #848484, rgba(0, 0, 0, 0.09) 0px 2px 1px;
 }
 
-/* play / pause */
-
+/* Play/Pause Switch */
 .switch {
   display: flex;
   align-items: center;
@@ -70,10 +75,7 @@ button:active {
   height: 1.5em;
   border-radius: 5px;
   padding: 5px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px, 
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-    rgba(10, 37, 64, 0.35) 0px 2px 6px 0px inset;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px 2px 6px 0px inset;
 }
 
 .switch .layout {
@@ -96,32 +98,28 @@ button:active {
   height: 100%;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   border-radius: 30px;
+  display: flex;
   justify-content: center;
 }
 
 .toggle:before {
-  position: absolute;
   content: "";
+  position: absolute;
   width: 2.5em;
   height: 100%;
-  border-radius: 5px;
-  border: none;
+  left: 0;
   background: linear-gradient(145deg, #c6c5c5, #e7e7e7);
-  cursor: pointer;
-  -webkit-transition: 0.4s;
+  border-radius: 5px;
   transition: 0.4s;
-  box-shadow: inset 2px 2px 0px #ffffff, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  box-shadow: inset 1px 2px 0px #ffffff, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 .check:checked + .toggle:before {
   transform: translateX(34px);
- }
+}
 
-/* outer border */
-
+/* Outer Border Section */
 .section {
   display: flex;
   align-items: center;
@@ -129,22 +127,13 @@ button:active {
   background-color: #6d6d6d;
   border-radius: 5px;
   padding: 5px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px, 
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
-/* volume knob */
-
-.bigWrapper {
-  padding: 5px;
-  border-radius: 50%;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -30px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -30px inset;
-}
-
+/* Volume Knob */
+.bigWrapper,
 .wrapperSlider {
-  padding: 3px;
+  padding: 5px;
   border-radius: 50%;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -30px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -30px inset;
 }

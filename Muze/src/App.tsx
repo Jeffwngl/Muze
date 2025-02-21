@@ -1,62 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
-import Icon from '../components/icons/Export';
+import styles from "./App.module.css";
+import MiniPlayer from "./components/miniplayer";
+import { PlaybackState } from "./types";
+import { spotifyApi } from "./spotifyApi";
+import LoginPage from "./components/login";
 
-function App() {
-  const [currentTrack, setCurrentTrack] = useState('No Track');
-  const [isPlaying, setIsPlaying] = useState(false);
+// React.FC is a simple way to write React screens
+const App: React.FC = () => {
+  const [isValidated, setIsValidated] = useState<boolean>(false);
+  const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
+  const [volume, setVolume] = useState<number>(100);
 
-  const handlePlay = () => {
-    setIsPlaying(!isPlaying);
+  // Runs when isValidated changes
+  useEffect(() => {
+    // Looks at the web address (URL) to see if Spotify sent us a special ticket (called a code) after we logged in.
+    // window.location.search: Grabs extra stuff from the URL (like ?code=abc123).
+    // new URLSearchParams: Turns that stuff into a little list we can read.
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code && !isValidated) {
+      // spotifyApi.authenticate(code): Hands the ticket to our Spotify remote (from spotifyApi.ts) to swapped for a key (token).
+      spotifyApi.authenticate(code).then(() => {
+        setIsValidated(true);
+        // window.history.pushState({}, document.title, '/'): Cleans up the URL (removes ?code=abc123) so it’s just http://localhost:xxxx.
+        window.history.pushState({}, document.title, '/');
+      })
+    }
+
+    // if user has already logged in it will automatically switch to true
+    else if (localStorage.getItem('spotify_token')) {
+      setIsValidated(true);
+    }
+
+    // if logged in
+    if (isValidated) {
+      // checks for playback state every second
+      const interval = setInterval(async () => {
+        const state = await spotifyApi.getPlaybackState();
+        setPlaybackState(state);
+      }, 1000);
+
+      // when the program shuts, we stop checking
+      return () => clearInterval(interval);
+    }
+
+  }, [isValidated])
+
+  if (!isValidated) {
+    return (
+      <LoginPage />
+    )
   }
 
   return (
-    <main className="container">
-      <div className="buttons">
-
-        {/* rewind */}
-        <div className="wrapper">
-          <div className="section">
-            <button id='rewind'><Icon className='symbols' name="rewind" size={20} color='#bababa' pad='0 5px'></Icon></button>
-          </div>
-        </div>
-
-        {/* play/pause */}
-        <div className="wrapper">
-          <label className="switch">
-            {/* <button id='play'></button> */}
-            <input type="checkbox" className="check" onChange={handlePlay}></input>
-            <span className="toggle"></span>
-            <div className="layout">
-              <Icon className='pause' name="pause" size={20} color="#5c5c5c" pad='0 5px'></Icon>
-              <Icon className='play' name="play" size={20} color='#5c5c5c' pad='0 5px'></Icon>
-            </div>
-          </label>  
-        </div>
-
-        {/* skip */}
-        <div className="wrapper">
-          <div className="section">
-            <button id='skip'><Icon className='symbols' name="skip" size={20} color='#bababa' pad='0 5px'></Icon></button>
-          </div>
-        </div>
-
-        {/* volume knob */}
-        <div className="bigWrapper">
-          <div className="wrapperSlider">
-            <div className="slider">
-              <div className="volumeKnob"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="songTitle">
-        <p>Now playing...</p>
-        <p>{currentTrack}</p>
-      </div>
-    </main>
+    <div>
+      <MiniPlayer />
+    </div>
   );
 }
 
