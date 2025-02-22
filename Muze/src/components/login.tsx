@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import styles from '../styles/login.module.css'
+import { redirectToAuthCodeFlow } from "../Auth";
 
 const LoginPage = () => {
 

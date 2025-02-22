@@ -15,12 +15,12 @@ const MiniPlayer = () => {
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [volume, setVolume] = useState<number>(100);
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const state = await spotifyApi.getPlaybackState();
-      setPlaybackState(state);
-    }, 1000)
-  })
+  // useEffect(() => {
+  //   const interval = setInterval(async () => {
+  //     const state = await spotifyApi.getPlaybackState();
+  //     setPlaybackState(state);
+  //   }, 1000)
+  // })
 
   return (
     <div className={styles.container}>

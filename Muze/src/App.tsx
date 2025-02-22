@@ -10,7 +10,7 @@ import LoginPage from "./components/login";
 const App: React.FC = () => {
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
-  const [volume, setVolume] = useState<number>(100);
+  // const [volume, setVolume] = useState<number>(100);
 
   // Runs when isValidated changes
   useEffect(() => {

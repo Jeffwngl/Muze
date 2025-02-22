@@ -2,31 +2,19 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::Manager;
-use tauri::webview::WebviewWindowBuilder;
-use url::Url;
-use dotenv::dotenv;
+use tauri::webview::{WebviewWindowBuilder, WebviewUrl};
 
 #[tauri::command]
 async fn open_spotify_auth_window(app: tauri::AppHandle) -> Result<(), String> {
-    dotenv().ok(); 
-    // debug
-    let redirect_uri = std::env::var("SPOTIFY_REDIRECT_URI").unwrap_or_default();
-    println!("Redirect URI: {}", redirect_uri);
-    let client_id = std::env::var("SPOTIFY_CLIENT_ID").unwrap_or_default();
-    println!("Client ID: {}", client_id);
+    let auth_url = "https://accounts.spotify.com/authorize?client_id=your_client_id_here&response_type=code&redirect_uri=http://localhost:3000&scope=user-read-playback-state%20user-modify-playback-state";
+    println!("Auth URL: {}", auth_url);
 
-    let auth_url = format!(
-        "https://accounts.spotify.com/authorize?client_id={}&response_type=code&redirect_uri={}&scope=user-read-playback-state%20user-modify-playback-state",
-        std::env::var("SPOTIFY_CLIENT_ID").unwrap_or_default(),
-        std::env::var("SPOTIFY_REDIRECT_URI").unwrap_or_default()
-    );
-    println!("Auth_URL: {}", auth_url);
-
-    let url = Url::parse(&auth_url).map_err(|e| e.to_string())?;
-    println!("url: {}", url);
-    WebviewWindowBuilder::new(&app, "spotify-auth", tauri::WebviewUrl::External(url))
+    let url = WebviewUrl::from_string(auth_url).map_err(|e| e.to_string())?;
+    let window = WebviewWindowBuilder::new(&app, "spotify-auth", url)
         .build()
         .map_err(|e| e.to_string())?;
+    println!("Window opened successfully");
+
     Ok(())
 }
 
