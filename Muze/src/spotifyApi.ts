@@ -25,10 +25,12 @@ export class SpotifyApi {
     private token: string | null = null;
 
     async authenticate(code: string): Promise<void> {
-        const clientId = import.meta.env.SPOTIFY_CLIENT_ID as string | undefined;
-        const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET as string | undefined;
-        const redirectUri = import.meta.env.SPOTIFY_REDIRECT_URL as string | undefined;
+        const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID as string | undefined;
+        const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET as string | undefined;
+        const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URL as string | undefined;
 
+        console.log('Client ID:', clientId);
+        
         if (!clientId || !clientSecret || !redirectUri) {
             throw new Error("Missing environment variables");
         }

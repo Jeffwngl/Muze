@@ -9,9 +9,9 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
-      <h1>Login to Spotify</h1>
-      <button onClick={handleLogin} className={styles.login}>Login with Spotify</button>
+    <div className={styles.container}>
+      <h1 className={styles.title}>MUZE PLAYER</h1>
+      <button onClick={handleLogin} className={styles.login}>LOGIN WITH SPOTIFY</button>
     </div>
   );
 };

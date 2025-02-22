@@ -19,6 +19,8 @@ const App: React.FC = () => {
     // new URLSearchParams: Turns that stuff into a little list we can read.
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+    console.log(`ParamL:`, urlParams);
+    console.log('URL code:', code);
 
     if (code && !isValidated) {
       // spotifyApi.authenticate(code): Hands the ticket to our Spotify remote (from spotifyApi.ts) to swapped for a key (token).
@@ -26,7 +28,10 @@ const App: React.FC = () => {
         setIsValidated(true);
         // window.history.pushState({}, document.title, '/'): Cleans up the URL (removes ?code=abc123) so it’s just http://localhost:xxxx.
         window.history.pushState({}, document.title, '/');
-      })
+        console.log('Authentication successful');
+      }).catch(error => {
+        console.error('Authentication failed:', error);
+      });
     }
 
     // if user has already logged in it will automatically switch to true
